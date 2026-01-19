@@ -181,7 +181,7 @@ def start_scheduler() -> None:
 
     scheduler.add_job(
         hourly_crm_job,
-        trigger=IntervalTrigger(hours=1),
+        trigger=IntervalTrigger(minutes=5),
         # Pour tester: IntervalTrigger(minutes=1)
         id="hourly_crm_job",
         replace_existing=True,
