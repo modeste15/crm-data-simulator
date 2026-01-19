@@ -16,14 +16,26 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   api:
-    build: .
+    build:
+      context: ./services/api
     env_file:
-      - .env
+      - ./services/api/.env
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
+
+  streamlit:
+    build:
+      context: ./services/streamlit
+    environment:
+      # IMPORTANT: on pointe vers le service docker "api"
+      FASTAPI_BASE_URL: "http://api:8000"
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
 
 volumes:
   pgdata:
